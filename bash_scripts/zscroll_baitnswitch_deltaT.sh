@@ -43,6 +43,8 @@ echo made the switch
 #        ./delta_T  009.00 $fname
 #done
 
+######## THIS IS A TEST COMMENT
+
 #write a new random seed and remake the folder
 #sed -i -r 's/#define RANDOM_SEED (long) (1)/#define RANDOM_SEED (long) (321)/' /Users/michael/Documents/MSI-C/21cmFAST/Parameter_files/INIT_PARAMS.H
 
