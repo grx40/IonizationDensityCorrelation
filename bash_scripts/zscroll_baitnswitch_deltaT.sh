@@ -1,3 +1,8 @@
+hey hey!
+
+
+
+
 SEED=90
 DIR="Boxes_for_seed_$SEED"
 echo Running, moving on with the script for seed $SEED
