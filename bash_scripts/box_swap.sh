@@ -7,7 +7,9 @@ TOTAL_Z=2
 Z_START=009.20
 Z_END=009.00
 
-
+###########################################################################
+#PART1 - RUN ./drive_zscroll_noTs and ./delta_T for both unmodified seeds #
+########################################################################### 
 #This first part is responsible for running 21cmFAST (without any swap) for each seed and place them in appropriate locations so that we can later move around their corresponding xH boxes
 for i in $SEED1 $SEED2
 do
