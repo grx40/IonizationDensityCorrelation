@@ -28,11 +28,11 @@ do
 
         #lets make a folder to put the seed1 boxes and put all of them there
 
-        mkdir /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED1
-        cp /users/michael/documents/msi-c/21cmfast/boxes/*Mpc /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED1
+        mkdir /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$i
+        cp /users/michael/documents/msi-c/21cmfast/boxes/*Mpc /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$i
 	
 	#tidy up the folder in preparation for the nextrun
-	rm cp /users/michael/documents/msi-c/21cmfast/boxes/*Mpc
+	rm /users/michael/documents/msi-c/21cmfast/boxes/*Mpc
 	
         #lets re-write params.h for the next seed
         sed -i -r 's/#define RANDOM_SEED (long) ($SEED1)/#define RANDOM_SEED (long) ($SEED2)/' /Users/michael/Documents/MSI-C/21cmFAST/Parameter_files/INIT_PARAMS.H
