@@ -4,8 +4,9 @@ SEED1=10
 SEED2=90
 
 TOTAL_Z=2
-Z_START=009.20
-Z_END=009.00
+Z_START=009.00
+Z_END=009.20
+#Z_STEP=
 
 ###########################################################################
 #PART1 - RUN ./drive_zscroll_noTs and ./delta_T for both unmodified seeds #
@@ -20,10 +21,11 @@ do
         CTR=0
         for j in $Z_START $Z_END
         do
+		CTR=$((CTR+1))
                 #find xH box corresponding to the jth redshift
-                fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$TOTAL_Z | tail -$CTR`
+                fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$CTR | tail -1`
                 ./delta_T $j  $fname
-                CTR=$((CTR+1))
+                
         done
 
         #lets make a folder to put the seed1 boxes and put all of them there
@@ -57,20 +59,21 @@ cp /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED1/*Mpc /user
 CTR=0
 for j in $Z_START $Z_END
 do
-	#find xH box corresponding to the jth redshift
-	fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$TOTAL_Z | tail -$CTR`
-	rm $fname
 	CTR=$((CTR+1))
+	#find xH box corresponding to the jth redshift
+	fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$CTR | tail -1`
+	rm $fname
 done
 
 #pull the xH files from SEED2 folder into /boxes folder
 CTR=0
 for j in $Z_START $Z_END
 do
+	CTR=$((CTR+1))
 	#find xH box corresponding to the jth redshift
-	fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED2/xH* | head -$TOTAL_Z | tail -$CTR`
+	fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED2/xH* | head -$CTR | tail -1`
      	mv $fname /users/michael/documents/msi-c/21cmfast/boxes/           
-        CTR=$((CTR+1))
+        
 done
 
 #rename the files
@@ -78,15 +81,16 @@ done
 CTR=0
 for j in $Z_START $Z_END
 do
-	#find the xH boxes we'd like to rename
-	fname=` ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$TOTAL_Z | tail -$CTR`
-	#find the corresponding name we'd like to use
-	bname=`ls /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED2/xH* | head -$TOTAL_Z | tail -$CTR`
-	#strip off the path
-	filename=$(basename "$bname")
-	#rename the corresponding file in the /boxes folder
-	mv $fname /users/michael/Documents/MSI-C/21cmFAST/Boxes/$filename
 	CTR=$((CTR+1))
+	#find the xH boxes we'd like to be renamed
+	fname=` ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$CTR | tail -1`
+	filename=$(basename "$fname")
+	#find the corresponding name we'd like to use
+	bname=`ls /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED1/xH* | head -$CTR | tail -1`
+	#strip off the path
+	bilename=$(basename "$bname")
+	#rename the corresponding file in the /boxes folder
+	mv /users/michael/Documents/MSI-C/21cmFAST/Boxes/"$filename" /users/michael/Documents/MSI-C/21cmFAST/Boxes/"$bilename"
 done
 
 
@@ -94,8 +98,9 @@ done
 CTR=0
 for j in $Z_START $Z_END
 do
-	#find xH box corresponding to the jth redshift
-	fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$TOTAL_Z | tail -$CTR`
-	./delta_T $j  $fname
 	CTR=$((CTR+1))
+	#find xH box corresponding to the jth redshift
+	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
+	./delta_T $j  /users/michael/Documents/MSI-C/21cmFAST/Boxes/"$fname"
+	
 done
