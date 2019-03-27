@@ -26,7 +26,7 @@ do
         do
 		CTR=$((CTR+1))
                 #find xH box corresponding to the jth redshift
-                fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$CTR | tail -1`
+                fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
         	echo starting with xH box: $fname
 		  
 		./delta_T $j  $fname
@@ -35,12 +35,12 @@ do
         #lets make a folder to put the seed1 boxes and put all of them there
 
 	echo Making a directory for seed $i
-        mkdir /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$i
-        cp /users/michael/documents/msi-c/21cmfast/boxes/*Mpc /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$i
+        mkdir /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$i
+        cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$i
 	
 	echo copied files
 	#tidy up the folder in preparation for the nextrun
-	rm /users/michael/documents/msi-c/21cmfast/boxes/*Mpc
+	rm /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc
 	echo removing folder
         
 	#lets re-write params.h for the next seed
@@ -68,7 +68,7 @@ done
 
 #echo copying seed1 into boxes
 #copy contents of seed1 box into /boxes
-cp /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED1/*Mpc /users/michael/documents/msi-c/21cmfast/boxes/
+cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$SEED1/*Mpc /users/michael/Documents/MSI-C/21cmFAST/Boxes/
 
 echo hey hey
 #remove the xH files
@@ -77,7 +77,7 @@ for j in $Z_START $Z_END
 do
 	CTR=$((CTR+1))
 	#find xH box corresponding to the jth redshift
-	fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$CTR | tail -1`
+	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
 	rm $fname
 done
 
@@ -89,8 +89,8 @@ for j in $Z_START $Z_END
 do
 	CTR=$((CTR+1))
 	#find xH box corresponding to the jth redshift
-	fname=`ls /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED2/xH* | head -$CTR | tail -1`
-     	mv $fname /users/michael/documents/msi-c/21cmfast/boxes/           
+	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$SEED2/xH* | head -$CTR | tail -1`
+     	mv $fname /users/michael/Documents/MSI-C/21cmFAST/Boxes/           
         
 done
 
@@ -102,10 +102,10 @@ for j in $Z_START $Z_END
 do
 	CTR=$((CTR+1))
 	#find the xH boxes we'd like to be renamed
-	fname=` ls /users/michael/documents/msi-c/21cmfast/boxes/xH* | head -$CTR | tail -1`
+	fname=` ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
 	filename=$(basename "$fname")
 	#find the corresponding name we'd like to use
-	bname=`ls /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED1/xH* | head -$CTR | tail -1`
+	bname=`ls /users/michael/documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$SEED1/xH* | head -$CTR | tail -1`
 	#strip off the path
 	bilename=$(basename "$bname")
 	#rename the corresponding file in the /boxes folder
