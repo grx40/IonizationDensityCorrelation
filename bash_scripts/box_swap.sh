@@ -1,7 +1,7 @@
 #You must set the initial seed in PARAMS.H to be SEED1 in order for this to work properly
 
-SEED1=20
-SEED2=80
+SEED1=30
+SEED2=50
 
 TOTAL_Z=2
 Z_START=009.00
@@ -18,7 +18,7 @@ do
 	
         #run 21cmFAST for seed1
         ./drive_zscroll_noTs
-	echo $21cmFAST is done, now running delta_T
+	echo 21cmFAST is done, now running delta_T
 	
         #run delta_T
         CTR=0
@@ -44,7 +44,7 @@ do
 	echo removing folder
         
 	#lets re-write params.h for the next seed
-        if [ COUNTER==1 ]
+        if [ $COUNTER == 1 ]
 	then
 		sed -i -r 's/#define RANDOM_SEED (long) ('"$SEED1"')/#define RANDOM_SEED (long) ('"$SEED2"')/' /Users/michael/Documents/MSI-C/21cmFAST/Parameter_files/INIT_PARAMS.H
 
@@ -66,7 +66,7 @@ done
 
 #SEED1 with xH of SEED2
 
-$echo copying seed1 into boxes
+#echo copying seed1 into boxes
 #copy contents of seed1 box into /boxes
 cp /users/michael/documents/msi-c/21cmfast/boxes/boxes_for_seed$SEED1/*Mpc /users/michael/documents/msi-c/21cmfast/boxes/
 
@@ -119,8 +119,11 @@ CTR=0
 for j in $Z_START $Z_END
 do
 	CTR=$((CTR+1))
+	echo $CTR
 	#find xH box corresponding to the jth redshift
 	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
-	./delta_T $j  /users/michael/Documents/MSI-C/21cmFAST/Boxes/"$fname"
+	echo $fname
+	#filename=$(basename "$fname")
+	./delta_T $j $fname
 	
 done
