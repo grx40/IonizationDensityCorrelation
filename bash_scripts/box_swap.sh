@@ -28,15 +28,17 @@ do
                 #find xH box corresponding to the jth redshift
                 fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
         	echo starting with xH box: $fname
+		filename=$(basename "$fname")
+		
 		  
-		./delta_T $j  $fname
+		./delta_T $j ../Boxes/"$filename"
         done
 
         #lets make a folder to put the seed1 boxes and put all of them there
 
 	echo Making a directory for seed $i
         mkdir /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$i
-        cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$i
+        cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$i"
 	
 	echo copied files
 	#tidy up the folder in preparation for the nextrun
@@ -68,7 +70,7 @@ done
 
 #echo copying seed1 into boxes
 #copy contents of seed1 box into /boxes
-cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$SEED1/*Mpc /users/michael/Documents/MSI-C/21cmFAST/Boxes/
+cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$SEED1"/*Mpc /users/michael/Documents/MSI-C/21cmFAST/Boxes/
 
 echo hey hey
 #remove the xH files
@@ -89,7 +91,7 @@ for j in $Z_START $Z_END
 do
 	CTR=$((CTR+1))
 	#find xH box corresponding to the jth redshift
-	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$SEED2/xH* | head -$CTR | tail -1`
+	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$SEED2"/xH* | head -$CTR | tail -1`
      	mv $fname /users/michael/Documents/MSI-C/21cmFAST/Boxes/           
         
 done
@@ -105,7 +107,7 @@ do
 	fname=` ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
 	filename=$(basename "$fname")
 	#find the corresponding name we'd like to use
-	bname=`ls /users/michael/documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$SEED1/xH* | head -$CTR | tail -1`
+	bname=`ls /users/michael/documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$SEED1"/xH* | head -$CTR | tail -1`
 	#strip off the path
 	bilename=$(basename "$bname")
 	#rename the corresponding file in the /boxes folder
@@ -123,7 +125,7 @@ do
 	#find xH box corresponding to the jth redshift
 	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
 	echo $fname
-	#filename=$(basename "$fname")
-	./delta_T $j $fname
+	filename=$(basename "$fname")
+	./delta_T $j ../Boxes/"$fname"
 	
 done
