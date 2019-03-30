@@ -1,8 +1,8 @@
 
 PROGRAM_PATH="/users/michael/documents/msi-c/21cmfast/programs"
 
-SEED1=130
-SEED2=150
+SEED1=200
+SEED2=350
 
 TOTAL_Z=2
 Z_START=009.00
@@ -103,7 +103,7 @@ echo removing xH files from /boxes
 #	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
 #	rm $fname
 #done
-rm /users/michael/Documents/MSI-C/21cmFAST/xH*
+rm /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH*
 
 
 #pull the xH files from SEED2 folder into /boxes folder
