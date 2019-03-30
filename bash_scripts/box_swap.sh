@@ -117,7 +117,7 @@ echo copying files from "$SEED2" into /boxes
 #	cp $fname /users/michael/Documents/MSI-C/21cmFAST/Boxes/
 #        
 #done
-cp /users/michael/Documents/MSI-C/21cmFAST/boxes_for_seed"$SEED2"/xH* /users/michael/Documents/MSI-C/21cmFAST/Boxes/
+cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$SEED2"/xH* /users/michael/Documents/MSI-C/21cmFAST/Boxes/
 
 
 
