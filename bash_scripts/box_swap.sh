@@ -1,7 +1,9 @@
 #You must set the initial seed in PARAMS.H to be SEED1 in order for this to work properly
 
-SEED1=30
-SEED2=50
+PROGRAM_PATH="/users/michael/documents/msi-c/21cmfast/programs"
+
+SEED1=130
+SEED2=150
 
 TOTAL_Z=2
 Z_START=009.00
@@ -11,7 +13,16 @@ Z_END=009.20
 COUNTER=1
 ###########################################################################
 #PART1 - RUN ./drive_zscroll_noTs and ./delta_T for both unmodified seeds #
-########################################################################### 
+###########################################################################
+
+# Cleanup of main directory at beginning
+# Inclusion of seed 1 and recompilation automatically
+# Simlifying of later loops
+
+
+
+pushd $PROGRAM_PATH
+
 #This first part is responsible for running 21cmFAST (without any swap) for each seed and place them in appropriate locations so that we can later move around their corresponding xH boxes
 for i in $SEED1 $SEED2
 do
@@ -28,16 +39,14 @@ do
                 #find xH box corresponding to the jth redshift
                 fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
         	echo starting with xH box: $fname
-		filename=$(basename "$fname")
-		
-		  
+		filename=$(basename "$fname")		  
 		./delta_T $j ../Boxes/"$filename"
         done
 
         #lets make a folder to put the seed1 boxes and put all of them there
 
 	echo Making a directory for seed $i
-        mkdir /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed$i
+        mkdir /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$i"
         cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$i"
 	
 	echo copied files
@@ -92,7 +101,7 @@ do
 	CTR=$((CTR+1))
 	#find xH box corresponding to the jth redshift
 	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$SEED2"/xH* | head -$CTR | tail -1`
-     	mv $fname /users/michael/Documents/MSI-C/21cmFAST/Boxes/           
+    cp $fname /users/michael/Documents/MSI-C/21cmFAST/Boxes/
         
 done
 
@@ -126,6 +135,8 @@ do
 	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
 	echo $fname
 	filename=$(basename "$fname")
-	./delta_T $j ../Boxes/"$fname"
+	./delta_T $j ../Boxes/"$filename"
 	
 done
+
+popd > /dev/null
