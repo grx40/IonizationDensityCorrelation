@@ -11,11 +11,16 @@ Z_END=009.20
 
 COUNTER=1
 
-#set the initial seed to be seed1 defined above
-sed -i -r 's/#define RANDOM_SEED (long) ( )/#define RANDOM_SEED (long) ('"$SEED1"')/' /Users/michael/Documents/MSI-C/21cmFAST/Parameter_files/INIT_PARAMS.H
+pushd $PROGRAM_PATH
 
 #cleanup the folder before beginning
 rm /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc
+
+#set the initial seed to be seed1 defined above
+sed -i -r 's/#define RANDOM_SEED.*/#define RANDOM_SEED (long) ('"$SEED1"')/' /Users/michael/Documents/MSI-C/21cmFAST/Parameter_files/INIT_PARAMS.H
+
+#remake the folder
+make
 
 
 
@@ -28,9 +33,6 @@ rm /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc
 # Inclusion of seed 1 and recompilation automatically
 # Simlifying of later loops
 
-
-
-pushd $PROGRAM_PATH
 
 #This first part is responsible for running 21cmFAST (without any swap) for each seed and place them in appropriate locations so that we can later move around their corresponding xH boxes
 for i in $SEED1 $SEED2
