@@ -1,4 +1,3 @@
-#You must set the initial seed in PARAMS.H to be SEED1 in order for this to work properly
 
 PROGRAM_PATH="/users/michael/documents/msi-c/21cmfast/programs"
 
@@ -11,6 +10,16 @@ Z_END=009.20
 #Z_STEP=-0.2
 
 COUNTER=1
+
+#set the initial seed to be seed1 defined above
+sed -i -r 's/#define RANDOM_SEED (long) ( )/#define RANDOM_SEED (long) ('"$SEED1"')/' /Users/michael/Documents/MSI-C/21cmFAST/Parameter_files/INIT_PARAMS.H
+
+#cleanup the folder before beginning
+rm /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc
+
+
+
+
 ###########################################################################
 #PART1 - RUN ./drive_zscroll_noTs and ./delta_T for both unmodified seeds #
 ###########################################################################
@@ -81,33 +90,38 @@ done
 #copy contents of seed1 box into /boxes
 cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$SEED1"/*Mpc /users/michael/Documents/MSI-C/21cmFAST/Boxes/
 
-echo hey hey
-#remove the xH files
-CTR=0
-for j in $Z_START $Z_END
-do
-	CTR=$((CTR+1))
-	#find xH box corresponding to the jth redshift
-	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
-	rm $fname
-done
 
-echo hey hey 2.0
+#remove the xH files
+echo removing xH files from /boxes
+#CTR=0
+#for j in $Z_START $Z_END
+#do
+#	CTR=$((CTR+1))
+#	#find xH box corresponding to the jth redshift
+#	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/xH* | head -$CTR | tail -1`
+#	rm $fname
+#done
+rm /users/michael/Documents/MSI-C/21cmFAST/xH*
+
 
 #pull the xH files from SEED2 folder into /boxes folder
-CTR=0
-for j in $Z_START $Z_END
-do
-	CTR=$((CTR+1))
-	#find xH box corresponding to the jth redshift
-	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$SEED2"/xH* | head -$CTR | tail -1`
-    cp $fname /users/michael/Documents/MSI-C/21cmFAST/Boxes/
-        
-done
+echo copying files from "$SEED2" into /boxes
+#CTR=0
+#for j in $Z_START $Z_END
+#do
+#	CTR=$((CTR+1))
+#	#find xH box corresponding to the jth redshift
+#	fname=`ls /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$SEED2"/xH* | head -$CTR | tail -1`
+#	cp $fname /users/michael/Documents/MSI-C/21cmFAST/Boxes/
+#        
+#done
+cp /users/michael/Documents/MSI-C/21cmFAST/boxes_for_seed"$SEED2"/xH* /users/michael/Documents/MSI-C/21cmFAST/Boxes/
+
+
 
 #rename the files
 
-echo hey hey 3.0
+echo renaming the files
 CTR=0
 for j in $Z_START $Z_END
 do
@@ -123,9 +137,11 @@ do
 	mv /users/michael/Documents/MSI-C/21cmFAST/Boxes/"$filename" /users/michael/Documents/MSI-C/21cmFAST/Boxes/"$bilename"
 done
 
-echo hey hey 4.0
+
 
 #run ./delta_T once more
+
+echo running delta_T with the swapped boxes
 CTR=0
 for j in $Z_START $Z_END
 do
