@@ -7,7 +7,7 @@ SEED2=350
 TOTAL_Z=2
 Z_START=009.00
 Z_END=009.20
-#Z_STEP=-0.2
+Z_STEP=0.2
 
 COUNTER=1
 
@@ -29,10 +29,6 @@ make
 #PART1 - RUN ./drive_zscroll_noTs and ./delta_T for both unmodified seeds #
 ###########################################################################
 
-# Cleanup of main directory at beginning
-# Inclusion of seed 1 and recompilation automatically
-# Simlifying of later loops
-
 
 #This first part is responsible for running 21cmFAST (without any swap) for each seed and place them in appropriate locations so that we can later move around their corresponding xH boxes
 for i in $SEED1 $SEED2
@@ -44,7 +40,7 @@ do
 	
         #run delta_T
         CTR=0
-        for j in $Z_START $Z_END
+        for j in $(seq $Z_START $Z_STEP $Z_END) 
         do
 		CTR=$((CTR+1))
                 #find xH box corresponding to the jth redshift
@@ -125,7 +121,7 @@ cp /users/michael/Documents/MSI-C/21cmFAST/Boxes/boxes_for_seed"$SEED2"/xH* /use
 
 echo renaming the files
 CTR=0
-for j in $Z_START $Z_END
+for j in $(seq $Z_START $Z_STEP $Z_END)
 do
 	CTR=$((CTR+1))
 	#find the xH boxes we'd like to be renamed
@@ -145,7 +141,7 @@ done
 
 echo running delta_T with the swapped boxes
 CTR=0
-for j in $Z_START $Z_END
+for j in $(seq $Z_START $Z_STEP $Z_END)
 do
 	CTR=$((CTR+1))
 	echo $CTR
