@@ -4,9 +4,9 @@ PROGRAM_PATH="/users/michael/documents/msi-c/21cmfast/programs"
 SEED1=200
 SEED2=350
 
-TOTAL_Z=2
-Z_START=009.00
-Z_END=009.20
+#TOTAL_Z=2
+Z_START=005.00
+Z_END=015.80
 Z_STEP=0.2
 
 COUNTER=1
