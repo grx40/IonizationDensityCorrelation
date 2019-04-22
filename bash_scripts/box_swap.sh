@@ -3,6 +3,7 @@ PROGRAM_PATH="/users/michael/documents/msi-c/21cmfast/programs"
 
 SEED1=200
 SEED2=350
+echo NotTesting
 
 #TOTAL_Z=2
 Z_START=005.00
