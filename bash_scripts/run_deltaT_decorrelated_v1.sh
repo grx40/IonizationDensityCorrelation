@@ -1,4 +1,4 @@
-###########################################################################################
+##########################################################################################
 # This script cleans up /boxes folder, runs 21cmFAST for our choice of redshift           #
 # then runs ./phase_shift.py which phase shifts the data and then calls                   #
 # ./delta_T to run the temperature file. We then pass that to the power spectrum script   #
@@ -6,10 +6,10 @@
 
 
 #Define some constants
-export SIGMA1=0.0
-export SIGMA2=0.5
-export SIGMA3=0.75
-export SIGMA4=0.99
+export SIGMA1=2.0
+export SIGMA2=3.0
+export SIGMA3=5.0
+export SIGMA4=10.0
 
 
 PROGRAM_PATH="/users/michael/documents/msi-c/21cmFAST/programs/"
@@ -22,7 +22,6 @@ echo cleanup on aisle Mpc
 rm /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc
 rm /users/michael/Documents/MSI-C/21cmFAST/Boxes/OriginalTemperatureBoxes/*
 rmdir /users/michael/Documents/MSI-C/21cmFAST/Boxes/OriginalTemperatureBoxes/
-rm /users/michael/Documents/MSI-C/21cmFAST/Boxes/*Mpc
 rm /users/michael/Documents/MSI-C/21cmFAST/Boxes/OriginalTemperatureBoxesNegative/*
 rmdir /users/michael/Documents/MSI-C/21cmFAST/Boxes/OriginalTemperatureBoxesNegative/
 
@@ -46,46 +45,55 @@ do
 		
 	if [ $k == 0 ]
 	then
-		rm ./init.c
-		rm ./drive_zscroll_noTs.c
-		cp ./original_program_files/init.c ./
-		cp ./original_program_files/drive_zscroll_noTs.c ./
+		#rm ./init.c
+		#rm ./drive_zscroll_noTs.c
+		#cp ./original_program_files/init.c ./
+		#cp ./original_program_files/drive_zscroll_noTs.c ./
 		make
 		DIR_D="DecorrelatedDensitiesSigma"
 		DIR_T="OriginalTemperatureBoxes"
 		export SIGN=0
-		
+		./init
+				
 	fi
 	
 	if [ $k == -1 ]
 	then
-		rm ./init.c
-		rm ./drive_zscroll_noTs.c
-		cp ./modified_program_files/init.c ./
-		cp ./modified_program_files/drive_zscroll_noTs.c ./
+		rm /users/michael/documents/msi-c/21cmFAST/Boxes/*Mpc
+		#rm ./init.c
+		#rm ./drive_zscroll_noTs.c
+		#cp ./modified_program_files/init.c ./
+		#cp ./modified_program_files/drive_zscroll_noTs.c ./
 		make
 		DIR_D="DecorrelatedAntiDensitiesSigma"
 		DIR_T="OriginalTemperatureBoxesNegative"
 		./init
-		#/Users/michael/research/densityioncorrelations/powerspectrumanalyses/swap_sign.py
+		/Users/michael/research/densityioncorrelations/powerspectrumanalyses/swap_sign.py
 		export SIGN=-1
 		
 	fi
 
 
-	make
 
 
 	##################
 	#  Run 21cmFAST  #
 	##################
 
-
+	
 	./drive_zscroll_noTs
-
-
+	
+	
 	#run temperature
+	
+	if [ $k == -1 ]
+        then
+                rm /users/michael/documents/MSI-C/21cmFAST/Boxes/xH*
+                cp /users/michael/documents/MSI-C/21cmFAST/Boxes/OriginalTemperatureBoxes/xH* /users/michael/documents/MSI-C/21cmFAST/Boxes/
+        fi
+
 	CTR=0
+	
 	for i in $(seq $Z_START $Z_STEP $Z_END)
 	do
 		CTR=$((CTR+1))
@@ -96,7 +104,6 @@ do
 	done
 	
 
-
 	#make a directory for the unaltered files
 	mkdir /users/michael/documents/MSI-C/21cmFAST/Boxes/"$DIR_T"
 	
@@ -104,8 +111,10 @@ do
 	#copy the unaltered densities and temperatures into a folder
 	cp /users/michael/documents/MSI-C/21cmFAST/Boxes/delta_T* /users/michael/documents/MSI-C/21cmFAST/Boxes/"$DIR_T"
 	cp /users/michael/documents/MSI-C/21cmFAST/Boxes/updated_smoothed_deltax* /users/michael/documents/MSI-C/21cmFAST/Boxes/"$DIR_T"
-	
+	cp /users/michael/documents/MSI-C/21cmFAST/Boxes/xH* /users/michael/documents/MSI-C/21cmFAST/Boxes/"$DIR_T"
 
+
+	
 	#################################################
 	# Call on ./phase_shift.py to shift density data #
 	#################################################
@@ -119,7 +128,6 @@ do
 
 	rm /users/michael/documents/MSI-C/21cmFAST/Boxes/updated_smoothed_deltax*
 	rm /users/michael/documents/MSI-C/21cmFAST/Boxes/delta_T*
-
 
 
 	for j in $SIGMA1 $SIGMA2 $SIGMA3 $SIGMA4
